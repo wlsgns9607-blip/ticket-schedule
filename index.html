@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>V-리그 티켓 오픈 계산기 · 정관장 & 현대건설</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="wrap top">
+  <div class="brand">
+    <div class="dots" aria-hidden="true"><i></i><i></i></div>
+    <div>
+      <h1>V-리그 티켓 오픈 계산기</h1>
+      <p>정관장 · 현대건설 · 2026-27 정규리그 <span id="range"></span></p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="hero" class="hero" aria-live="off"></section>
+  <div class="stats" id="stats"></div>
+  <p class="legend"><b>공식</b> 표시는 구단이 확정한 일정(12월 20일까지)이고, <b>예상</b> 표시는 경기 7일 전 선예매·5일 전 일반예매 규칙으로 계산한 날짜입니다. 선예매는 정관장·현대건설 홈경기만 표시합니다. 설 연휴 주간은 구단 공지를 다시 확인하세요.</p>
+
+  <div class="bar">
+    <div class="bar-row">
+      <div class="seg" id="team-filters" role="group" aria-label="팀과 구장 필터"></div>
+      <div class="hides"><label class="hide"><input type="checkbox" id="hide-booked" />예매 완료 숨기기</label><label class="hide"><input type="checkbox" id="show-past" />지난 경기 보기</label></div>
+    </div>
+    <div class="months" id="month-filters" role="group" aria-label="월별 필터"></div>
+  </div>
+
+  <div class="grid" id="match-grid"></div>
+  <footer>예매 완료 체크는 이 브라우저에만 저장됩니다.</footer>
+</main>
+<div id="toast" class="toast" role="status">예매 일정을 복사했습니다</div>
+
+<script src="script.js"></script>
+</body>
+</html>
