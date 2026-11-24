@@ -1476,8 +1476,16 @@ const MATCHES = [
 
 const KEY = "vleague_booked_full_2026";
 let bookedIds = [];
-try { bookedIds = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) {}
+try { bookedIds = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { }
 const BOOK_URL = "https://kovo.co.kr/tickets/single?gender=2";
+const HOME_BOOK_URLS = [
+  { home: "정관장", venue: "대전충무체육관", url: "https://facility.ticketlink.co.kr/reserve/product/66564/schedule/sports?teamId=97&menuIndex=reserve" },
+  { home: "현대건설", venue: "수원체육관", url: "https://facility.ticketlink.co.kr/reserve/product/66223/schedule/sports?teamId=68&menuIndex=reserve" },
+  { home: "GS칼텍스", venue: "서울장충체육관", url: "https://facility.ticketlink.co.kr/reserve/product/66036/schedule/sports?teamId=71&menuIndex=reserve" },
+  { home: "SOOP", venue: "숲 스타디움", url: "https://facility.ticketlink.co.kr/reserve/product/66622/schedule/sports?teamId=740&menuIndex=reserve" },
+];
+const bookUrl = m => (HOME_BOOK_URLS.find(x => x.home === m.home && x.venue === m.venue)?.url || BOOK_URL);
+const escAttr = s => s.replace(/&/g, "&amp;");
 let teamFilter = "ALL", monthFilter = "ALL";
 
 const OUR = ["정관장", "현대건설"];
@@ -1556,7 +1564,7 @@ function renderHero(now) {
       <div class="countdown num" id="cd">${fmtCountdown(n.dt - now)}</div>
       <div class="hero-what">${tag(n.kind)} ${m.home} vs ${m.away}${n.tier ? ` · ${n.tier}` : ""}</div>
       <div class="hero-when">오픈 ${n.time} · 경기 ${d.md}(${d.dow}) ${d.time} · ${m.venue}</div>
-      <a class="go" href="${BOOK_URL}" target="_blank" rel="noopener">예매 페이지 열기</a>
+      <a class="go" href="${escAttr(bookUrl(m))}" target="_blank" rel="noopener">예매 페이지 열기</a>
     </div>
     <div class="hero-side">
       <h2>이어서 오픈</h2>
@@ -1607,7 +1615,7 @@ function ticket(m, now) {
       ${presales(m).length ? "" : `<div class="note">원정 경기라 선예매는 표시하지 않아요</div>`}
       <div class="t-act">
         <label><input class="done-cb" type="checkbox" data-id="${m.id}" ${booked ? "checked" : ""}>${booked ? "예매 완료" : "예매했어요"}</label>
-        <span class="act-r"><button class="copy" data-copy="${m.id}">일정 복사</button><a class="go" href="${BOOK_URL}" target="_blank" rel="noopener">예매하기</a></span>
+        <span class="act-r"><button class="copy" data-copy="${m.id}">일정 복사</button><a class="go" href="${escAttr(bookUrl(m))}" target="_blank" rel="noopener">예매하기</a></span>
       </div>
     </div>
   </article>`;
@@ -1675,7 +1683,7 @@ document.addEventListener("change", e => {
   const id = e.target.dataset && e.target.dataset.id;
   if (!id) return;
   bookedIds = e.target.checked ? [...new Set([...bookedIds, id])] : bookedIds.filter(x => x !== id);
-  try { localStorage.setItem(KEY, JSON.stringify(bookedIds)); } catch (err) {}
+  try { localStorage.setItem(KEY, JSON.stringify(bookedIds)); } catch (err) { }
   render();
 });
 document.getElementById("hide-booked").addEventListener("change", render);
